@@ -4,6 +4,10 @@ import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -85,6 +89,7 @@ public class Faith {
      * @return 得到現在日期,格式:  yyyy-MM-dd HH:mm:ss
      */
     public static String nowDateTime(){
+
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
     }
 
@@ -94,6 +99,7 @@ public class Faith {
      * @return 得到現在日期,格式:  yyyy-MM-dd
      */
     public static String nowDate(){
+
         return new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
     }
 
@@ -103,6 +109,7 @@ public class Faith {
      * @return 得到現在時間,格式:  HH:mm:ss
      */
     public static String nowTime(){
+
         return new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
     }
 
@@ -216,6 +223,34 @@ public class Faith {
             System.err.println(e);
         }
         return document;
+    }
+
+    /**
+     * 20180125
+     * 指定編碼的方式爬網頁
+     * 主要是因為原本big5會碰到一些難字無法解析,改成Big5_HKSCS後正常
+     * @param url
+     * @param encodeing
+     * @return
+     */
+    public Document parseHtml(String url,String encodeing){
+        if(encodeing == null || "".equals(encodeing)){
+            //預設香港增補字符集Big5_HKSCS
+            encodeing = "Big5_HKSCS";
+        }
+        URL siteURL = null;
+        HttpURLConnection connection = null;
+        Document  doc = null;
+        try {
+            siteURL = new URL(url);
+            connection = (HttpURLConnection)siteURL.openConnection();
+            doc = Jsoup.parse(connection.getInputStream(),encodeing,url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return doc;
     }
 
     /**

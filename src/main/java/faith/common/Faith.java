@@ -76,7 +76,7 @@ public class Faith {
      *  2017.12.23
      * @return 得到昨天日期,格式: yyyy/MM/dd
      */
-    public String yestDate(){
+    public static String yestDate(){
         Calendar c = Calendar.getInstance();
         c.setTime(Calendar.getInstance().getTime());
         c.add(Calendar.DATE,-1);
@@ -174,7 +174,7 @@ public class Faith {
      * 2017.12.23
      * @param apiURL
      */
-    public void callAPI(String apiURL){
+    public static void callAPI(String apiURL){
         try {
             Jsoup.connect(apiURL)
                     .ignoreHttpErrors(true)
@@ -191,7 +191,7 @@ public class Faith {
      * @param apiURL
      * @param requestBody
      */
-    public void callAPI(String apiURL,String requestBody){
+    public static void callAPI(String apiURL,String requestBody){
         try {
             Jsoup.connect(apiURL)
                     .requestBody(requestBody)
@@ -212,7 +212,7 @@ public class Faith {
      * @param url
      * @return 回傳JSOUP的Document物件內容
      */
-    public Document parseHtml(String url){
+    public static Document parseHtml(String url){
         Document document = null;
         try {
             document = Jsoup.connect(url)
@@ -233,7 +233,7 @@ public class Faith {
      * @param encodeing
      * @return
      */
-    public Document parseHtml(String url,String encodeing){
+    public static Document parseHtml(String url,String encodeing){
         if(encodeing == null || "".equals(encodeing)){
             //預設香港增補字符集Big5_HKSCS
             encodeing = "Big5_HKSCS";
@@ -259,7 +259,7 @@ public class Faith {
      * @param str
      * @return 過濾後的字串
      */
-    public String regStr(String str){
+    public static String regStr(String str){
         String queryStr;
         String regEx = "[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
         Pattern pattern = Pattern.compile(regEx);

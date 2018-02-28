@@ -170,7 +170,6 @@ public class Faith {
     public void callAPI(String apiURL){
         try {
             Jsoup.connect(apiURL)
-                    .timeout(3000)
                     .ignoreHttpErrors(true)
                     .ignoreContentType(true)
                     .validateTLSCertificates(false)

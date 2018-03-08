@@ -1,6 +1,9 @@
 package faith.common;
 
 import javax.net.ssl.*;
+import java.io.File;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
@@ -39,7 +42,7 @@ public class FileProperties {
         }
     }
 
-    //放在最外面所以只剩下檔名名稱config_zh_TW.properties
+    //抓內部參數檔
     private FileProperties() {
 
         rb = ResourceBundle.getBundle("config", new Locale("zh","TW"));
@@ -52,9 +55,35 @@ public class FileProperties {
         return fileProperties;
     }
 
-    //抓設定檔參數
+    /*
+    * 抓內部參數檔
+    * 會抓class load裡面的config_zh_TW.properties
+    * */
     public String getKey(String key) {
 
         return rb.getString(key);
+    }
+
+//  抓外部參數檔
+    public String getExtKey(String key) {
+
+        return getExternalKeys().getString(key);
+    }
+
+    /*
+    * 抓外部參數檔
+    * 檔案固定放在C:/Project/config_zh_TW.properties
+    * */
+    public static ResourceBundle getExternalKeys(){
+        File file = new File("C:/Project");
+        ResourceBundle bundle = null;
+        try{
+            URL urls[] = {file.toURI().toURL()};
+            ClassLoader loader = new URLClassLoader(urls);
+            bundle = ResourceBundle.getBundle("config", Locale.TAIWAN, loader);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return bundle;
     }
 }
